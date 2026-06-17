@@ -253,21 +253,36 @@ const Index = () => {
           <h2 className="text-center font-heading text-5xl font-medium italic text-[#3A2A28] md:text-6xl">
             Моменты
           </h2>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {GALLERY.map((src, i) => (
-              <div
-                key={src}
-                className="group overflow-hidden border border-[#D8C9B0] p-2 transition-all duration-500 hover:border-[#B08D57]"
-              >
+          <div className="mt-14 space-y-6">
+            {/* Детская фото по центру */}
+            <div className="flex justify-center">
+              <div className="group w-full max-w-sm overflow-hidden border border-[#D8C9B0] p-2 transition-all duration-500 hover:border-[#B08D57]">
                 <div className="overflow-hidden">
                   <img
-                    src={src}
-                    alt={`Момент ${i + 1}`}
+                    src={GALLERY[0]}
+                    alt="Момент 1"
                     className="aspect-[4/5] w-full object-cover grayscale-[15%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                   />
                 </div>
               </div>
-            ))}
+            </div>
+            {/* Остальные три */}
+            <div className="grid gap-6 sm:grid-cols-3">
+              {GALLERY.slice(1).map((src, i) => (
+                <div
+                  key={src}
+                  className="group overflow-hidden border border-[#D8C9B0] p-2 transition-all duration-500 hover:border-[#B08D57]"
+                >
+                  <div className="overflow-hidden">
+                    <img
+                      src={src}
+                      alt={`Момент ${i + 2}`}
+                      className="aspect-[4/5] w-full object-cover grayscale-[15%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
