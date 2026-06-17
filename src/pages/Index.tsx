@@ -6,9 +6,10 @@ const RSVP_URL = 'https://functions.poehali.dev/717d0bba-7a12-452a-b846-f6527b69
 const PARTY_DATE = new Date('2026-06-21T14:00:00');
 
 const GALLERY = [
-  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/1afe8ec7-6fcb-4549-8c8e-17ce1272d3ff.jpg',
-  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/c442ae9c-02cf-49ac-aaa5-78258e4d2dba.jpg',
-  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/6313307b-9f19-4fb6-b6ad-d14f53fbdf2d.jpg',
+  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/bucket/c6c90d3f-a131-46a3-b696-dfa33221ccc0.jpg',
+  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/bucket/40c913af-50b9-411a-a255-5e46226e07e4.jpg',
+  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/bucket/ff87e077-5994-48dc-9e4f-e834c1946271.jpg',
+  'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/bucket/1dc78ed1-6ae6-47c5-9412-ebbd0480007c.jpg',
 ];
 
 function useCountdown(target: Date) {
