@@ -226,19 +226,26 @@ const Index = () => {
           <div className="mb-14 flex justify-center">
             <Ornament />
           </div>
-          <div className="grid gap-12 text-center md:grid-cols-2 md:gap-8">
+          <div className="grid gap-12 text-center md:grid-cols-3 md:gap-8">
             <div>
               <Icon name="Calendar" size={26} className="mx-auto text-[#B08D57]" />
               <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
-                Когда
+                Дата
               </h3>
               <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">21 июня 2026</p>
-              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">Воскресенье · 14:00</p>
+              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">Воскресенье</p>
+            </div>
+            <div>
+              <Icon name="Clock" size={26} className="mx-auto text-[#B08D57]" />
+              <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
+                Время
+              </h3>
+              <p className="mt-3 font-display text-6xl font-semibold text-[#B08D57]">14:00</p>
             </div>
             <div>
               <Icon name="MapPin" size={26} className="mx-auto text-[#B08D57]" />
               <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
-                Где
+                Место
               </h3>
               <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">Своя Компания</p>
               <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">ул. Мира, 11</p>
