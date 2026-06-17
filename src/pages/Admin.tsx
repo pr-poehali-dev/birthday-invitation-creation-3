@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import Icon from '@/components/ui/icon';
 
 const RSVP_URL = 'https://functions.poehali.dev/717d0bba-7a12-452a-b846-f6527b690dc0';
+const ADMIN_PASSWORD = 'Lusine2026';
+const SESSION_KEY = 'admin_auth';
 
 type Rsvp = {
   name: string;
@@ -10,7 +12,48 @@ type Rsvp = {
   created_at: string;
 };
 
+const LoginScreen = ({ onAuth }: { onAuth: () => void }) => {
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(false);
+
+  const submit = () => {
+    if (value === ADMIN_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      onAuth();
+    } else {
+      setError(true);
+      setValue('');
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#F5F0E8] px-6 font-body">
+      <div className="w-full max-w-sm border border-[#D8C9B0] bg-white/70 p-10 text-center backdrop-blur">
+        <Icon name="Lock" size={28} className="mx-auto text-[#B08D57]" />
+        <h1 className="mt-5 font-heading text-3xl font-medium italic text-[#3A2A28]">Панель гостей</h1>
+        <p className="mt-2 font-body text-sm font-light text-[#9A8478]">Введите пароль для доступа</p>
+        <input
+          type="password"
+          value={value}
+          onChange={e => { setValue(e.target.value); setError(false); }}
+          onKeyDown={e => e.key === 'Enter' && submit()}
+          placeholder="Пароль"
+          className="mt-8 w-full border-b border-[#C9B79C] bg-transparent py-2 text-center font-body text-base text-[#3A2A28] outline-none placeholder:text-[#C9B79C] focus:border-[#B08D57] transition-colors"
+        />
+        {error && <p className="mt-2 font-body text-xs text-red-400">Неверный пароль</p>}
+        <button
+          onClick={submit}
+          className="mt-6 w-full bg-[#3A2A28] py-3 font-body text-xs uppercase tracking-[0.35em] text-[#E9DFCF] transition-all hover:bg-[#B08D57]"
+        >
+          Войти
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Admin = () => {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1');
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
   const [attendingCount, setAttendingCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -28,7 +71,9 @@ const Admin = () => {
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => { if (authed) load(); }, [authed, load]);
+
+  if (!authed) return <LoginScreen onAuth={() => setAuthed(true)} />;
 
   const filtered = rsvps.filter(r => filter === 'all' || r.status === filter);
   const notAttendingCount = rsvps.filter(r => r.status === 'not_attending').length;
