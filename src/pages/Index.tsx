@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 
 const PARTY_DATE = new Date('2026-07-25T18:00:00');
@@ -8,8 +8,6 @@ const GALLERY = [
   'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/c442ae9c-02cf-49ac-aaa5-78258e4d2dba.jpg',
   'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/6313307b-9f19-4fb6-b6ad-d14f53fbdf2d.jpg',
 ];
-
-const CONFETTI_COLORS = ['#FF5DA2', '#FFD93D', '#6BCB77', '#4D96FF', '#FF6B6B', '#C77DFF'];
 
 function useCountdown(target: Date) {
   const [diff, setDiff] = useState(() => target.getTime() - Date.now());
@@ -26,183 +24,152 @@ function useCountdown(target: Date) {
   };
 }
 
-const Confetti = () => {
-  const pieces = useMemo(
-    () =>
-      Array.from({ length: 60 }).map((_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 8,
-        duration: 6 + Math.random() * 6,
-        size: 6 + Math.random() * 8,
-        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-        round: Math.random() > 0.5,
-      })),
-    [],
-  );
-  return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {pieces.map((p) => (
-        <span
-          key={p.id}
-          className="absolute top-0 animate-confetti-fall"
-          style={{
-            left: `${p.left}%`,
-            width: p.size,
-            height: p.size,
-            background: p.color,
-            borderRadius: p.round ? '50%' : '2px',
-            animationDelay: `${p.delay}s`,
-            animationDuration: `${p.duration}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-const Balloon = ({ color, className, delay }: { color: string; className?: string; delay?: string }) => (
-  <div className={`animate-float ${className ?? ''}`} style={{ animationDelay: delay }}>
-    <div
-      className="relative h-24 w-[72px] rounded-[50%] shadow-lg"
-      style={{ background: `radial-gradient(circle at 32% 28%, #ffffffaa, ${color} 55%)` }}
-    >
-      <span
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 border-x-[6px] border-x-transparent border-t-[10px]"
-        style={{ borderTopColor: color }}
-      />
-      <span className="absolute -bottom-12 left-1/2 h-12 w-px -translate-x-1/2 bg-white/40" />
-    </div>
+const Ornament = () => (
+  <div className="flex items-center justify-center gap-4 text-[#B08D57]">
+    <span className="h-px w-16 bg-gradient-to-r from-transparent to-[#B08D57]/70" />
+    <Icon name="Sparkle" size={16} />
+    <span className="h-px w-16 bg-gradient-to-l from-transparent to-[#B08D57]/70" />
   </div>
 );
 
 const TimeBox = ({ value, label }: { value: number; label: string }) => (
   <div className="flex flex-col items-center">
-    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white/95 shadow-xl backdrop-blur md:h-28 md:w-28">
-      <span className="font-heading text-3xl font-extrabold text-[#C026A3] md:text-5xl tabular-nums">
-        {String(value).padStart(2, '0')}
-      </span>
-    </div>
-    <span className="mt-2 font-body text-xs font-medium uppercase tracking-widest text-white/90 md:text-sm">
+    <span className="font-display text-4xl font-semibold text-[#3A2A28] tabular-nums md:text-6xl">
+      {String(value).padStart(2, '0')}
+    </span>
+    <span className="mt-1 font-body text-[10px] font-light uppercase tracking-[0.3em] text-[#9A8478] md:text-xs">
       {label}
     </span>
   </div>
 );
 
+const Divider = () => <span className="font-display text-3xl font-light text-[#C9B79C] md:text-5xl">:</span>;
+
 const Index = () => {
   const { days, hours, minutes, seconds } = useCountdown(PARTY_DATE);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#FF5DA2] via-[#A14BE0] to-[#4D96FF] font-body text-white">
-      <Confetti />
-
-      {/* Garland */}
-      <div className="relative z-10 flex justify-center gap-2 pt-4">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <span
-            key={i}
-            className="h-4 w-4 rounded-full animate-wiggle"
-            style={{
-              background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-              animationDelay: `${(i % 6) * 0.15}s`,
-              marginTop: i % 2 ? '10px' : '0',
-            }}
-          />
-        ))}
-      </div>
-
+    <div className="min-h-screen bg-[#F5F0E8] font-body text-[#3A2A28]">
       {/* Hero */}
-      <header className="relative z-10 px-6 pb-10 pt-12 text-center">
-        <div className="pointer-events-none absolute left-4 top-0 hidden md:block">
-          <Balloon color="#FFD93D" delay="0s" />
-        </div>
-        <div className="pointer-events-none absolute right-6 top-4 hidden md:block">
-          <Balloon color="#6BCB77" delay="1.2s" />
-        </div>
+      <header className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+        <div className="pointer-events-none absolute inset-4 border border-[#D8C9B0] md:inset-8" />
 
-        <p className="animate-fade-in font-heading text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
-          Ты приглашён на праздник
+        <p
+          className="animate-fade-in font-body text-xs font-light uppercase tracking-[0.45em] text-[#9A8478]"
+          style={{ opacity: 0 }}
+        >
+          Приглашение
         </p>
+
         <h1
-          className="animate-fade-in mt-4 font-display text-5xl leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.25)] md:text-8xl"
+          className="animate-fade-in mt-8 font-heading text-6xl font-medium italic leading-none text-[#3A2A28] md:text-8xl"
           style={{ animationDelay: '0.1s', opacity: 0 }}
         >
           День рождения
         </h1>
+
+        <div className="animate-fade-in mt-8" style={{ animationDelay: '0.2s', opacity: 0 }}>
+          <Ornament />
+        </div>
+
         <p
-          className="animate-fade-in mt-4 font-heading text-2xl font-extrabold text-[#FFD93D] drop-shadow md:text-4xl"
-          style={{ animationDelay: '0.2s', opacity: 0 }}
+          className="animate-fade-in mt-8 font-display text-3xl font-semibold tracking-wide text-[#B08D57] md:text-4xl"
+          style={{ animationDelay: '0.3s', opacity: 0 }}
         >
           Анны
         </p>
+
         <p
-          className="animate-fade-in mx-auto mt-5 max-w-md text-base text-white/90 md:text-lg"
-          style={{ animationDelay: '0.3s', opacity: 0 }}
+          className="animate-fade-in mt-6 max-w-md font-body text-sm font-light leading-relaxed text-[#6B5A52] md:text-base"
+          style={{ animationDelay: '0.4s', opacity: 0 }}
         >
-          Будет весело, вкусно и незабываемо. Приходи и подари нам своё хорошее настроение! 🎈
+          С большой радостью приглашаю вас разделить со мной этот особенный вечер
         </p>
+
+        <div
+          className="animate-fade-in absolute bottom-12 flex flex-col items-center gap-2 text-[#9A8478]"
+          style={{ animationDelay: '0.6s', opacity: 0 }}
+        >
+          <span className="font-body text-[10px] uppercase tracking-[0.3em]">Листайте</span>
+          <Icon name="ChevronDown" size={18} />
+        </div>
       </header>
 
       {/* Countdown */}
-      <section className="relative z-10 px-6 pb-14">
-        <h2 className="mb-6 text-center font-display text-2xl text-white md:text-3xl">
-          До праздника осталось
-        </h2>
-        <div className="flex justify-center gap-3 md:gap-6">
-          <TimeBox value={days} label="дней" />
-          <TimeBox value={hours} label="часов" />
-          <TimeBox value={minutes} label="минут" />
-          <TimeBox value={seconds} label="секунд" />
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-body text-xs font-light uppercase tracking-[0.4em] text-[#9A8478]">
+            До торжества осталось
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-4 md:gap-8">
+            <TimeBox value={days} label="дней" />
+            <Divider />
+            <TimeBox value={hours} label="часов" />
+            <Divider />
+            <TimeBox value={minutes} label="минут" />
+            <Divider />
+            <TimeBox value={seconds} label="секунд" />
+          </div>
         </div>
       </section>
 
       {/* Details */}
-      <section className="relative z-10 px-6 pb-14">
-        <div className="mx-auto grid max-w-3xl gap-5 md:grid-cols-2">
-          <div className="animate-pop rounded-3xl bg-white/95 p-7 text-center shadow-xl" style={{ opacity: 0 }}>
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#FF5DA2]/15">
-              <Icon name="CalendarHeart" size={30} className="text-[#C026A3]" />
-            </div>
-            <h3 className="font-heading text-lg font-extrabold text-[#333]">Когда</h3>
-            <p className="mt-2 font-body text-xl font-bold text-[#C026A3]">25 июля 2026</p>
-            <p className="mt-1 text-sm text-[#666]">Суббота, начало в 18:00</p>
+      <section className="bg-[#EFE7DA] px-6 py-24">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-14 flex justify-center">
+            <Ornament />
           </div>
-          <div
-            className="animate-pop rounded-3xl bg-white/95 p-7 text-center shadow-xl"
-            style={{ opacity: 0, animationDelay: '0.15s' }}
-          >
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#4D96FF]/15">
-              <Icon name="MapPin" size={30} className="text-[#2563EB]" />
+          <div className="grid gap-12 text-center md:grid-cols-2 md:gap-8">
+            <div>
+              <Icon name="Calendar" size={26} className="mx-auto text-[#B08D57]" />
+              <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
+                Когда
+              </h3>
+              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">25 июля 2026</p>
+              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">Суббота · 18:00</p>
             </div>
-            <h3 className="font-heading text-lg font-extrabold text-[#333]">Где</h3>
-            <p className="mt-2 font-body text-xl font-bold text-[#2563EB]">Лофт «Небо»</p>
-            <p className="mt-1 text-sm text-[#666]">ул. Праздничная, 7</p>
+            <div>
+              <Icon name="MapPin" size={26} className="mx-auto text-[#B08D57]" />
+              <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
+                Где
+              </h3>
+              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">Лофт «Небо»</p>
+              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">ул. Праздничная, 7</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Gallery */}
-      <section className="relative z-10 px-6 pb-20">
-        <h2 className="mb-8 text-center font-display text-3xl text-white md:text-4xl">Галерея</h2>
-        <div className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {GALLERY.map((src, i) => (
-            <div
-              key={src}
-              className="group overflow-hidden rounded-3xl shadow-2xl ring-4 ring-white/40 transition-transform duration-300 hover:-translate-y-2 hover:rotate-1"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <img
-                src={src}
-                alt={`Праздник ${i + 1}`}
-                className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-            </div>
-          ))}
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-center font-heading text-5xl font-medium italic text-[#3A2A28] md:text-6xl">
+            Моменты
+          </h2>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {GALLERY.map((src, i) => (
+              <div
+                key={src}
+                className="group overflow-hidden border border-[#D8C9B0] p-2 transition-all duration-500 hover:border-[#B08D57]"
+              >
+                <div className="overflow-hidden">
+                  <img
+                    src={src}
+                    alt={`Момент ${i + 1}`}
+                    className="aspect-[4/5] w-full object-cover grayscale-[15%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <footer className="relative z-10 pb-8 text-center font-body text-sm text-white/70">
-        Ждём именно тебя! 💖
+      <footer className="bg-[#3A2A28] px-6 py-16 text-center text-[#E9DFCF]">
+        <p className="font-heading text-2xl font-medium italic md:text-3xl">Буду счастлива видеть вас</p>
+        <div className="mt-6 flex justify-center text-[#B08D57]">
+          <Icon name="Heart" size={18} />
+        </div>
       </footer>
     </div>
   );

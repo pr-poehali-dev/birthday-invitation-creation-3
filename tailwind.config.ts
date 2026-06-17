@@ -20,9 +20,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				display: ['Pacifico', 'cursive'],
-				heading: ['Montserrat', 'sans-serif'],
-				body: ['Comfortaa', 'sans-serif']
+				display: ['Cormorant', 'serif'],
+				heading: ['Cormorant Garamond', 'serif'],
+				body: ['Jost', 'sans-serif']
 			},
 			colors: {
 				border: 'hsl(var(--border))',
