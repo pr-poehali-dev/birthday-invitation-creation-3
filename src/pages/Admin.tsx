@@ -87,13 +87,22 @@ const Admin = () => {
             <p className="font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">Панель</p>
             <h1 className="mt-1 font-heading text-3xl font-medium italic text-[#3A2A28]">Гости Лусине</h1>
           </div>
-          <button
-            onClick={load}
-            className="flex items-center gap-2 border border-[#C9B79C] px-4 py-2 font-body text-xs uppercase tracking-widest text-[#6B5A52] transition-all hover:border-[#B08D57] hover:text-[#B08D57]"
-          >
-            <Icon name="RefreshCw" size={13} />
-            Обновить
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={load}
+              className="flex items-center gap-2 border border-[#C9B79C] px-4 py-2 font-body text-xs uppercase tracking-widest text-[#6B5A52] transition-all hover:border-[#B08D57] hover:text-[#B08D57]"
+            >
+              <Icon name="RefreshCw" size={13} />
+              Обновить
+            </button>
+            <button
+              onClick={() => { sessionStorage.removeItem(SESSION_KEY); setAuthed(false); }}
+              className="flex items-center gap-2 border border-[#C9B79C] px-4 py-2 font-body text-xs uppercase tracking-widest text-[#6B5A52] transition-all hover:border-red-300 hover:text-red-400"
+            >
+              <Icon name="LogOut" size={13} />
+              Выйти
+            </button>
+          </div>
         </div>
       </header>
 
