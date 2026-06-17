@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 
+const RSVP_URL = 'https://functions.poehali.dev/717d0bba-7a12-452a-b846-f6527b690dc0';
+
 const PARTY_DATE = new Date('2026-06-21T14:00:00');
 
 const GALLERY = [
@@ -44,6 +46,110 @@ const TimeBox = ({ value, label }: { value: number; label: string }) => (
 );
 
 const Divider = () => <span className="font-display text-3xl font-light text-[#C9B79C] md:text-5xl">:</span>;
+
+const RsvpForm = () => {
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState<'attending' | 'not_attending' | null>(null);
+  const [guests, setGuests] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState('');
+
+  const submit = async () => {
+    if (!name.trim() || !status) return;
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(RSVP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), status, guests_count: guests }),
+      });
+      if (!res.ok) throw new Error();
+      setDone(true);
+    } catch {
+      setError('Не удалось отправить. Попробуйте ещё раз.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (done) {
+    return (
+      <div className="mt-10 flex flex-col items-center gap-4 text-[#3A2A28]">
+        <Icon name="CheckCircle" size={40} className="text-[#B08D57]" />
+        <p className="font-heading text-2xl italic">
+          {status === 'attending' ? 'Ждём вас с нетерпением!' : 'Жаль, что не получится'}
+        </p>
+        <p className="font-body text-sm font-light text-[#6B5A52]">Ответ сохранён, спасибо!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-10 space-y-6 text-left">
+      <div>
+        <label className="font-body text-xs font-light uppercase tracking-[0.3em] text-[#9A8478]">Ваше имя</label>
+        <input
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Имя и фамилия"
+          className="mt-2 w-full border-b border-[#C9B79C] bg-transparent py-2 font-body text-base text-[#3A2A28] outline-none placeholder:text-[#C9B79C] focus:border-[#B08D57] transition-colors"
+        />
+      </div>
+
+      <div>
+        <label className="font-body text-xs font-light uppercase tracking-[0.3em] text-[#9A8478]">Вы придёте?</label>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          {(['attending', 'not_attending'] as const).map(s => (
+            <button
+              key={s}
+              onClick={() => setStatus(s)}
+              className={`border py-3 font-body text-sm font-light uppercase tracking-widest transition-all duration-300 ${
+                status === s
+                  ? 'border-[#B08D57] bg-[#B08D57] text-white'
+                  : 'border-[#C9B79C] text-[#6B5A52] hover:border-[#B08D57]'
+              }`}
+            >
+              {s === 'attending' ? 'Приду' : 'Не смогу'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {status === 'attending' && (
+        <div>
+          <label className="font-body text-xs font-light uppercase tracking-[0.3em] text-[#9A8478]">Количество гостей</label>
+          <div className="mt-3 flex items-center gap-4">
+            <button
+              onClick={() => setGuests(g => Math.max(1, g - 1))}
+              className="flex h-9 w-9 items-center justify-center border border-[#C9B79C] text-[#6B5A52] hover:border-[#B08D57] transition-colors"
+            >
+              <Icon name="Minus" size={14} />
+            </button>
+            <span className="font-display text-2xl font-semibold text-[#3A2A28] w-6 text-center">{guests}</span>
+            <button
+              onClick={() => setGuests(g => Math.min(10, g + 1))}
+              className="flex h-9 w-9 items-center justify-center border border-[#C9B79C] text-[#6B5A52] hover:border-[#B08D57] transition-colors"
+            >
+              <Icon name="Plus" size={14} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {error && <p className="font-body text-sm text-red-500">{error}</p>}
+
+      <button
+        onClick={submit}
+        disabled={!name.trim() || !status || loading}
+        className="w-full bg-[#3A2A28] py-4 font-body text-xs font-light uppercase tracking-[0.35em] text-[#E9DFCF] transition-all duration-300 hover:bg-[#B08D57] disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {loading ? 'Отправляю...' : 'Отправить ответ'}
+      </button>
+    </div>
+  );
+};
 
 const Index = () => {
   const { days, hours, minutes, seconds } = useCountdown(PARTY_DATE);
@@ -162,6 +268,16 @@ const Index = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* RSVP */}
+      <section className="bg-[#EFE7DA] px-6 py-24">
+        <div className="mx-auto max-w-lg text-center">
+          <p className="font-body text-xs font-light uppercase tracking-[0.4em] text-[#9A8478]">Подтверждение</p>
+          <h2 className="mt-4 font-heading text-4xl font-medium italic text-[#3A2A28] md:text-5xl">Придёте?</h2>
+          <div className="mt-3 flex justify-center"><Ornament /></div>
+          <RsvpForm />
         </div>
       </section>
 

@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "POST RSVP attending",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест Гость", "status": "attending", "guests_count": 2},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "GET RSVP list",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {"attending_count": 0},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
