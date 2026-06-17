@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 
-const PARTY_DATE = new Date('2026-07-25T18:00:00');
+const PARTY_DATE = new Date('2026-06-21T14:00:00');
 
 const GALLERY = [
   'https://cdn.poehali.dev/projects/a8a0c233-7f88-4be8-aee5-87dd4f629653/files/1afe8ec7-6fcb-4549-8c8e-17ce1272d3ff.jpg',
@@ -76,7 +76,7 @@ const Index = () => {
           className="animate-fade-in mt-8 font-display text-3xl font-semibold tracking-wide text-[#B08D57] md:text-4xl"
           style={{ animationDelay: '0.3s', opacity: 0 }}
         >
-          Анны
+          Лусине
         </p>
 
         <p
@@ -125,16 +125,16 @@ const Index = () => {
               <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
                 Когда
               </h3>
-              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">25 июля 2026</p>
-              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">Суббота · 18:00</p>
+              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">21 июня 2026</p>
+              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">Воскресенье · 14:00</p>
             </div>
             <div>
               <Icon name="MapPin" size={26} className="mx-auto text-[#B08D57]" />
               <h3 className="mt-5 font-body text-xs font-light uppercase tracking-[0.35em] text-[#9A8478]">
                 Где
               </h3>
-              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">Лофт «Небо»</p>
-              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">ул. Праздничная, 7</p>
+              <p className="mt-3 font-heading text-3xl font-medium italic text-[#3A2A28]">Своя Компания</p>
+              <p className="mt-1 font-body text-sm font-light text-[#6B5A52]">ул. Мира, 11</p>
             </div>
           </div>
         </div>
